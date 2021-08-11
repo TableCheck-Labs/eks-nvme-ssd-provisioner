@@ -1,7 +1,8 @@
-_2020/12/02_   
-WARN: Please build and host your own image as the GCR costs are becomming
-significant for me and I need to find another solution for hosting the image
-soon. Today I have replaced the image tag `v1.0.0` with an alpine version.
+This repository hosts the `brunsgaard/eks-nvme-ssd-provisioner` project on Docker Hub.
+
+The advantages of using this prebuilt image are:
+- ARM64 image support for ARM (Graviton) based instances (for instance, m6gd) with local disk.
+- Hosted on Docker Hub instead of EU GCR, so the author will not incur additional cost.
 
 # eks-nvme-ssd-provisioner
 
