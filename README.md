@@ -3,6 +3,7 @@ This repository hosts the `brunsgaard/eks-nvme-ssd-provisioner` project on Docke
 The advantages of using this prebuilt image are:
 - ARM64 image support for ARM (Graviton) based instances (for instance, m6gd) with local disk.
 - Hosted on Docker Hub instead of EU GCR, so the author will not incur additional cost.
+- Hosted Helm chart.
 
 # eks-nvme-ssd-provisioner
 
@@ -34,6 +35,15 @@ kubectl apply -f manifests/storage-local-static-provisioner.yaml
 ```
 
 ## Helm
+
+*A hosted Helm chart* is available. Use the following commands to use it. https://tablecheck-labs.github.io/eks-nvme-ssd-provisioner/
+
+```
+helm repo add tablecheck-local-provisioner https://tablecheck-labs.github.io/eks-nvme-ssd-provisioner/
+helm upgrade --install tablecheck-local-provisioner tablecheck-local-provisioner/eks-nvme-ssd-provisioner
+```
+
+For local installations:
 
 ```
 helm upgrade --install --namespace=kube-system eks-nvme-ssd-provisioner ./helm/eks-nvme-ssd-provisioner
