@@ -6,7 +6,7 @@ image:
   pullPolicy: IfNotPresent
   tag: stable
 
-imagePullSecrets: []
+imagePullSecrets: {}
 nameOverride: ""
 fullnameOverride: ""
 
@@ -16,6 +16,4 @@ securityContext:
 nodeSelector:
   aws.amazon.com/eks-local-ssd: "true"
 
-tolerations: []
-
-affinity: {}
+tolerations: {}
