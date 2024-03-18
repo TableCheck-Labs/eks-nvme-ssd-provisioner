@@ -72,6 +72,7 @@ case $PROVISIONING_DONE in
       DEVICE=$RAID_DEVICE
       ;;
     esac
+    ;;
   *)
     echo "Provisioning is completed."
     ;;
