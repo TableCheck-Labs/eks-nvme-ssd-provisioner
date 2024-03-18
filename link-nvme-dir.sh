@@ -2,7 +2,7 @@
 
 # Define the target and link locations
 TARGET_DIR="/pv-disks"
-LINK_NAME="/systemroot/disk"
+LINK_NAME="/nvme/orange"
 
 cd /
 
