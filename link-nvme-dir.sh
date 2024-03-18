@@ -4,6 +4,8 @@
 TARGET_DIR="/pv-disks"
 LINK_NAME="/disk"
 
+cd /
+
 # Find the first (and should be the only) directory / symbolic link inside the target directory
 DIRECTORY=$(find $TARGET_DIR -mindepth 1 -maxdepth 1 -type d -or -type l | head -n 1)
 

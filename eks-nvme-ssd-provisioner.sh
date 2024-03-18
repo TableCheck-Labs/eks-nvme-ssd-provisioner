@@ -12,9 +12,12 @@ FILESYSTEM_BLOCK_SIZE=${FILESYSTEM_BLOCK_SIZE:-4096}  # Bytes
 STRIDE=$((RAID_CHUNK_SIZE * 1024 / FILESYSTEM_BLOCK_SIZE))
 STRIPE_WIDTH=$((SSD_NVME_DEVICE_COUNT * STRIDE))
 
+export PROVISIONING_DONE=0
+
 # Checking if provisioning already happend
 if [[ "$(ls -A /pv-disks)" ]]
 then
+  PROVISIONING_DONE=1
   echo 'Volumes already present in "/pv-disks"'
   echo -e "\n$(ls -Al /pv-disks | tail -n +2)\n"
   echo "I assume that provisioning already happend, trying to assemble and mount!"
@@ -45,27 +48,33 @@ then
 fi
 
 # Perform provisioning based on nvme device count
-case $SSD_NVME_DEVICE_COUNT in
-"0")
-  echo 'No devices found of type "Amazon EC2 NVMe Instance Storage"'
-  echo "Maybe your node selectors are not set correct"
-  exit 1
-  ;;
-"1")
-  mkfs.ext4 -m 0 -b "$FILESYSTEM_BLOCK_SIZE" "${SSD_NVME_DEVICE_LIST[0]}"
-  DEVICE="${SSD_NVME_DEVICE_LIST[0]}"
-  ;;
-*)
-  mdadm --create --verbose "$RAID_DEVICE" --level=0 -c "${RAID_CHUNK_SIZE}" \
-    --raid-devices=${#SSD_NVME_DEVICE_LIST[@]} "${SSD_NVME_DEVICE_LIST[@]}"
-  while [ -n "$(mdadm --detail "$RAID_DEVICE" | grep -ioE 'State :.*resyncing')" ]; do
-    echo "Raid is resyncing.."
-    sleep 1
-  done
-  echo "Raid0 device $RAID_DEVICE has been created with disks ${SSD_NVME_DEVICE_LIST[*]}"
-  mkfs.ext4 -m 0 -b "$FILESYSTEM_BLOCK_SIZE" -E "stride=$STRIDE,stripe-width=$STRIPE_WIDTH" "$RAID_DEVICE"
-  DEVICE=$RAID_DEVICE
-  ;;
+case $PROVISIONING_DONE in
+  "0")
+    case $SSD_NVME_DEVICE_COUNT in
+    "0")
+      echo 'No devices found of type "Amazon EC2 NVMe Instance Storage"'
+      echo "Maybe your node selectors are not set correct"
+      exit 1
+      ;;
+    "1")
+      mkfs.ext4 -m 0 -b "$FILESYSTEM_BLOCK_SIZE" "${SSD_NVME_DEVICE_LIST[0]}"
+      DEVICE="${SSD_NVME_DEVICE_LIST[0]}"
+      ;;
+    *)
+      mdadm --create --verbose "$RAID_DEVICE" --level=0 -c "${RAID_CHUNK_SIZE}" \
+        --raid-devices=${#SSD_NVME_DEVICE_LIST[@]} "${SSD_NVME_DEVICE_LIST[@]}"
+      while [ -n "$(mdadm --detail "$RAID_DEVICE" | grep -ioE 'State :.*resyncing')" ]; do
+        echo "Raid is resyncing.."
+        sleep 1
+      done
+      echo "Raid0 device $RAID_DEVICE has been created with disks ${SSD_NVME_DEVICE_LIST[*]}"
+      mkfs.ext4 -m 0 -b "$FILESYSTEM_BLOCK_SIZE" -E "stride=$STRIDE,stripe-width=$STRIPE_WIDTH" "$RAID_DEVICE"
+      DEVICE=$RAID_DEVICE
+      ;;
+    esac
+  *)
+    echo "Provisioning is completed."
+    ;;
 esac
 
 UUID=$(blkid -s UUID -o value "$DEVICE")
