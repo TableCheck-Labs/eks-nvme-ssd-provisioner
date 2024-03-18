@@ -40,6 +40,9 @@ spec:
           - mountPath: /nvme
             name: nvme
             mountPropagation: "Bidirectional"
+          - mountPath: /
+            name: disk
+            mountPropagation: "Bidirectional"
       volumes:
       - name: pv-disks
         hostPath:
@@ -47,3 +50,6 @@ spec:
       - name: nvme
         hostPath:
           path: /nvme
+      - name: disk
+        hostPath:
+          path: /systemroot

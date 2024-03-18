@@ -2,8 +2,18 @@ apiVersion: v1
 entries:
   eks-nvme-ssd-provisioner:
   - apiVersion: v2
+    appVersion: 0.1.2
+    created: "2024-03-18T14:53:20.646118181Z"
+    description: A Helm chart for Kubernetes
+    digest: 0ff5a9135a637dd92ebbe3db11c19fabeddcb9d414b5ad158ff76de9604dd724
+    name: eks-nvme-ssd-provisioner
+    type: application
+    urls:
+    - https://tablecheck-labs.github.io/eks-nvme-ssd-provisioner/eks-nvme-ssd-provisioner-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
     appVersion: 0.1.1
-    created: "2024-03-17T01:20:32.295802913Z"
+    created: "2024-03-18T14:53:20.645893432Z"
     description: A Helm chart for Kubernetes
     digest: 32401d93ff6b7c4087577c66a4421443fde765ea75a5112dd59fa105ad593288
     name: eks-nvme-ssd-provisioner
@@ -13,7 +23,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-03-17T01:20:32.295576611Z"
+    created: "2024-03-18T14:53:20.645647704Z"
     description: A Helm chart for Kubernetes
     digest: 3e2af220f9ae6ddc78fae0c89395e9f77609435b90a196561cc559eeea4a78b8
     name: eks-nvme-ssd-provisioner
@@ -21,4 +31,4 @@ entries:
     urls:
     - https://tablecheck-labs.github.io/eks-nvme-ssd-provisioner/eks-nvme-ssd-provisioner-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-17T01:20:32.295232882Z"
+generated: "2024-03-18T14:53:20.645297291Z"
